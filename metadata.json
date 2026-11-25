@@ -1,0 +1,6 @@
+{
+  "name": "TrustCheck AI — Analisador Inteligente de Riscos em Anúncios",
+  "description": "Protótipo de apoio à moderação de anúncios em marketplaces para identificação de sinais de atenção, inconsistências e revisão humana.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
