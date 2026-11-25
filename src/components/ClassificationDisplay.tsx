@@ -59,9 +59,10 @@ export function ClassificationDisplay({
 
 interface SeverityIndicatorProps {
   severity: AttentionSeverity;
+  label?: string;
 }
 
-export function SeverityIndicator({ severity }: SeverityIndicatorProps) {
+export function SeverityIndicator({ severity, label }: SeverityIndicatorProps) {
   const config: Record<AttentionSeverity, { label: string; colorClass: string }> = {
     baixo: {
       label: 'Atenção leve',
@@ -83,7 +84,7 @@ export function SeverityIndicator({ severity }: SeverityIndicatorProps) {
     <span
       className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium whitespace-nowrap shrink-0 ${current.colorClass}`}
     >
-      {current.label}
+      {label || current.label}
     </span>
   );
 }

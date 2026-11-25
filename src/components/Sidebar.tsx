@@ -132,9 +132,9 @@ export function Sidebar({
       </div>
 
       <div className="border-t border-slate-800/80 px-5 py-4 text-xs text-slate-400 space-y-1">
-        <p className="font-medium text-slate-300">Ambiente protótipo</p>
+        <p className="font-medium text-slate-300">Ambiente integrado</p>
         <p className="leading-relaxed">
-          Dados demonstrativos locais. Camada preparada para Supabase e Gemini API.
+          Dashboard demonstrativo e análises processadas via Supabase Edge Function.
         </p>
       </div>
     </div>

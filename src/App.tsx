@@ -22,20 +22,24 @@ const SECTION_TITLES: Record<AppSection, string> = {
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<AppSection>('dashboard');
-  const [analysesHistory, setAnalysesHistory] = useState<AnalysisResult[]>(DEMO_RECENT_ANALYSES);
   const [selectedResult, setSelectedResult] = useState<AnalysisResult | null>(null);
+  const [resultSuccessMessage, setResultSuccessMessage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleSelectAnalysis = (analysis: AnalysisResult) => {
+  const handleSelectDemoAnalysis = (analysis: AnalysisResult) => {
     setSelectedResult(analysis);
+    setResultSuccessMessage(null);
     setActiveSection('resultado');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigate = (section: AppSection) => {
     setSubmissionError(null);
+    if (section !== 'resultado') {
+      setResultSuccessMessage(null);
+    }
     setActiveSection(section);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -43,11 +47,14 @@ export default function App() {
   const handleRunAnalysis = async (input: ListingInput) => {
     setIsAnalyzing(true);
     setSubmissionError(null);
+    setResultSuccessMessage(null);
 
     try {
       const result = await analysisService.analyzeListing(input);
-      setAnalysesHistory((prev) => [result, ...prev]);
       setSelectedResult(result);
+      setResultSuccessMessage(
+        'Análise concluída com sucesso. Os indicadores abaixo foram retornados pelo serviço do Supabase.'
+      );
       setActiveSection('resultado');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
@@ -109,8 +116,8 @@ export default function App() {
           <div className="mx-auto max-w-6xl space-y-8">
             {activeSection === 'dashboard' && (
               <DashboardView
-                analyses={analysesHistory}
-                onSelectAnalysis={handleSelectAnalysis}
+                analyses={DEMO_RECENT_ANALYSES}
+                onSelectAnalysis={handleSelectDemoAnalysis}
                 onStartNewAnalysis={() => handleNavigate('nova-analise')}
               />
             )}
@@ -126,6 +133,7 @@ export default function App() {
             {activeSection === 'resultado' && (
               <AnalysisResultView
                 result={selectedResult}
+                successMessage={resultSuccessMessage}
                 onNewAnalysis={() => handleNavigate('nova-analise')}
                 onBackToDashboard={() => handleNavigate('dashboard')}
               />

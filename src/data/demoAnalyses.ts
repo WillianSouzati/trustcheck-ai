@@ -83,39 +83,35 @@ export const DEMO_RECENT_ANALYSES: AnalysisResult[] = [
     indicators: [
       {
         id: 'ind-1',
-        type: 'Preço aparentemente incompatível com as informações fornecidas',
+        title: 'Preço aparentemente incompatível com as informações fornecidas',
         severity: 'elevado',
         justification:
           'O valor anunciado (R$ 2.150,00) apresenta diferença expressiva em relação à faixa habitual para um aparelho descrito como novo e lacrado deste modelo.',
-        excerpt: 'iPhone 15 Pro 256GB Titânio Natural - Lacrado',
-        field: 'title',
+        evidence: 'iPhone 15 Pro 256GB Titânio Natural - Lacrado',
       },
       {
         id: 'ind-2',
-        type: 'Solicitação de contato fora da plataforma',
+        title: 'Solicitação de contato fora da plataforma',
         severity: 'elevado',
         justification:
           'O texto convida o interessado a continuar a conversa por canal externo, o que reduz a rastreabilidade das interações pela moderação.',
-        excerpt: 'chamar direto no WhatsApp (11) 99812-0000',
-        field: 'description',
+        evidence: 'chamar direto no WhatsApp (11) 99812-0000',
       },
       {
         id: 'ind-3',
-        type: 'Solicitação de pagamento ou adiantamento',
+        title: 'Solicitação de pagamento ou adiantamento',
         severity: 'elevado',
         justification:
           'Há pedido explícito de transferência antecipada antes da conferência presencial ou mediação da plataforma.',
-        excerpt: 'reservar com sinal de 30% via Pix antes de retirar',
-        field: 'description',
+        evidence: 'reservar com sinal de 30% via Pix antes de retirar',
       },
       {
         id: 'ind-4',
-        type: 'Expressões de negociação fora do padrão',
+        title: 'Expressões de negociação fora do padrão',
         severity: 'moderado',
         justification:
           'O anúncio utiliza argumento de urgência combinado com recusa do fluxo padrão da plataforma.',
-        excerpt: 'viagem urgente amanhã cedo. Não faço entrega pelo site',
-        field: 'description',
+        evidence: 'viagem urgente amanhã cedo. Não faço entrega pelo site',
       },
     ],
     analyzedAt: '2026-11-24T15:42:00-03:00',
@@ -158,21 +154,19 @@ export const DEMO_RECENT_ANALYSES: AnalysisResult[] = [
     indicators: [
       {
         id: 'ind-5',
-        type: 'Inconsistência entre título e descrição',
+        title: 'Inconsistência entre título e descrição',
         severity: 'moderado',
         justification:
           'O título descreve o item como "Novo", enquanto o corpo do anúncio informa uso prévio de aproximadamente dois anos e desgaste visível.',
-        excerpt: 'Sofá Retrátil 3 Lugares Linho Cinza Novo',
-        field: 'title',
+        evidence: 'Sofá Retrátil 3 Lugares Linho Cinza Novo',
       },
       {
         id: 'ind-6',
-        type: 'Solicitação de contato fora da plataforma',
+        title: 'Solicitação de contato fora da plataforma',
         severity: 'baixo',
         justification:
           'Embora mencione o chat oficial, o texto também disponibiliza perfil em rede social externa para combinar detalhes.',
-        excerpt: 'ou no insta @loja_exemplo',
-        field: 'description',
+        evidence: 'ou no insta @loja_exemplo',
       },
     ],
     analyzedAt: '2026-11-24T14:50:00-03:00',
@@ -215,30 +209,27 @@ export const DEMO_RECENT_ANALYSES: AnalysisResult[] = [
     indicators: [
       {
         id: 'ind-7',
-        type: 'Solicitação de pagamento ou adiantamento',
+        title: 'Solicitação de pagamento ou adiantamento',
         severity: 'elevado',
         justification:
           'Solicita valor adiantado antes mesmo da realização da visita presencial ao imóvel.',
-        excerpt: 'exigimos depósito de caução adiantado para garantir a visita',
-        field: 'description',
+        evidence: 'exigimos depósito de caução adiantado para garantir a visita',
       },
       {
         id: 'ind-8',
-        type: 'Solicitação de contato fora da plataforma',
+        title: 'Solicitação de contato fora da plataforma',
         severity: 'elevado',
         justification:
           'Orienta explicitamente os interessados a não utilizarem os canais internos da plataforma.',
-        excerpt: 'Tratar somente fora do aplicativo pelo telefone indicado',
-        field: 'description',
+        evidence: 'Tratar somente fora do aplicativo pelo telefone indicado',
       },
       {
         id: 'ind-9',
-        type: 'Preço aparentemente incompatível com as informações fornecidas',
+        title: 'Preço aparentemente incompatível com as informações fornecidas',
         severity: 'moderado',
         justification:
           'O valor informado destoa da média observada para imóveis mobiliados com dois dormitórios e vaga próximos ao metrô.',
-        excerpt: 'Apartamento 2 Quartos Mobiliado Próximo ao Metrô',
-        field: 'title',
+        evidence: 'Apartamento 2 Quartos Mobiliado Próximo ao Metrô',
       },
     ],
     analyzedAt: '2026-11-24T11:40:00-03:00',
@@ -262,12 +253,11 @@ export const DEMO_RECENT_ANALYSES: AnalysisResult[] = [
     indicators: [
       {
         id: 'ind-10',
-        type: 'Informações incompletas ou contraditórias',
+        title: 'Informações incompletas ou contraditórias',
         severity: 'moderado',
         justification:
           'A descrição utiliza a expressão "primeira linha", que frequentemente contradiz a declaração de produto "Original" presente no título, além de omitir medidas básicas.',
-        excerpt: 'importada primeira linha premium',
-        field: 'description',
+        evidence: 'importada primeira linha premium',
       },
     ],
     analyzedAt: '2026-11-24T10:12:00-03:00',

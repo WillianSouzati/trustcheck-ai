@@ -27,11 +27,11 @@ export type IndicatorCategory =
 
 export interface RiskIndicator {
   id: string;
-  type: IndicatorCategory;
+  title: string;
   severity: AttentionSeverity;
+  severityLabel?: string;
   justification: string;
-  excerpt?: string;
-  field?: 'title' | 'description' | 'price';
+  evidence?: string;
 }
 
 export interface ListingInput {
@@ -43,14 +43,74 @@ export interface ListingInput {
 
 export interface AnalysisResult {
   id: string;
-  listing: ListingInput;
+  listing: {
+    title: string;
+    description: string;
+    price: number;
+    category: string;
+  };
   classification: ClassificationLevel;
   attentionLevelLabel: string;
   humanReviewRecommendation: string;
-  summary: string;
+  summary?: string;
   indicators: RiskIndicator[];
   analyzedAt: string;
-  sourceMode: 'demonstrativo' | 'simulacao_local';
+  sourceMode: 'demonstrativo' | 'real';
+}
+
+/**
+ * Payload exato esperado pela Edge Function `analyze-trustcheck-listing`
+ */
+export interface EdgeAnalyzeListingRequest {
+  listing_title: string;
+  listing_description: string;
+  listing_price: number;
+  listing_category: string;
+}
+
+/**
+ * Estrutura de indicador retornada no campo `analysis.indicators`
+ */
+export interface EdgeAnalysisIndicatorRaw {
+  id?: string;
+  title?: string;
+  type?: string;
+  name?: string;
+  label?: string;
+  severity?: string;
+  level?: string;
+  risk_level?: string;
+  justification?: string;
+  reason?: string;
+  explanation?: string;
+  description?: string;
+  evidence?: string | null;
+  excerpt?: string | null;
+  quote?: string | null;
+  snippet?: string | null;
+}
+
+/**
+ * Estrutura do objeto `analysis` retornado pela Edge Function `analyze-trustcheck-listing`
+ */
+export interface EdgeAnalysisRecord {
+  id: string;
+  listing_title: string;
+  listing_description: string;
+  listing_price: number;
+  listing_category: string;
+  classification: string;
+  indicators: EdgeAnalysisIndicatorRaw[] | null;
+  recommendation: string;
+  summary?: string | null;
+  created_at: string;
+}
+
+export interface EdgeAnalyzeListingResponse {
+  success: boolean;
+  analysis?: EdgeAnalysisRecord;
+  error?: string;
+  message?: string;
 }
 
 export interface DashboardKPIs {
@@ -84,10 +144,6 @@ export interface DemoPreset {
   };
 }
 
-/**
- * Contrato de serviço preparado para integração futura com
- * Supabase Edge Functions + Google Gemini API.
- */
 export interface IAnalysisService {
   analyzeListing(input: ListingInput): Promise<AnalysisResult>;
 }

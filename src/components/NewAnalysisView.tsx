@@ -82,8 +82,8 @@ export function NewAnalysisView({
           Nova análise de anúncio
         </h1>
         <p className="mt-1 text-sm text-slate-600">
-          Preencha os dados do anúncio para simular a identificação de sinais de atenção e
-          recomendações de revisão humana.
+          Preencha os dados do anúncio para identificar sinais de atenção e recomendações de
+          revisão humana.
         </p>
       </div>
 

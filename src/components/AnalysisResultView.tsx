@@ -17,29 +17,29 @@ import {
 
 interface AnalysisResultViewProps {
   result: AnalysisResult | null;
+  successMessage: string | null;
   onNewAnalysis: () => void;
   onBackToDashboard: () => void;
 }
 
-function renderHighlightedText(text: string, excerpts: string[]) {
-  const cleanExcerpts = excerpts
+function renderHighlightedText(text: string, evidences: string[]) {
+  const cleanEvidences = evidences
     .map((e) => e.replace(/^\.\.\.|\.\.\.$/g, '').trim())
     .filter((e) => e.length >= 4);
 
-  if (cleanExcerpts.length === 0) {
+  if (cleanEvidences.length === 0) {
     return <span>{text}</span>;
   }
 
-  // Escapa caracteres especiais de regex e destaca trechos encontrados
-  const escaped = cleanExcerpts.map((e) => e.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const escaped = cleanEvidences.map((e) => e.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   const pattern = new RegExp(`(${escaped.join('|')})`, 'gi');
   const parts = text.split(pattern);
 
   return (
     <>
       {parts.map((part, index) => {
-        const isMatch = cleanExcerpts.some(
-          (excerpt) => excerpt.toLowerCase() === part.toLowerCase()
+        const isMatch = cleanEvidences.some(
+          (evidence) => evidence.toLowerCase() === part.toLowerCase()
         );
         if (isMatch) {
           return (
@@ -59,6 +59,7 @@ function renderHighlightedText(text: string, excerpts: string[]) {
 
 export function AnalysisResultView({
   result,
+  successMessage,
   onNewAnalysis,
   onBackToDashboard,
 }: AnalysisResultViewProps) {
@@ -98,9 +99,9 @@ export function AnalysisResultView({
   }
 
   const theme = getClassificationTheme(result.classification);
-  const excerpts = result.indicators
-    .map((ind) => ind.excerpt)
-    .filter((ex): ex is string => Boolean(ex));
+  const evidences = result.indicators
+    .map((ind) => ind.evidence)
+    .filter((ev): ev is string => Boolean(ev));
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -130,6 +131,17 @@ export function AnalysisResultView({
         </button>
       </div>
 
+      {/* Mensagem de sucesso da análise real */}
+      {successMessage && result.sourceMode === 'real' && (
+        <div
+          role="status"
+          className="flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-900"
+        >
+          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" aria-hidden="true" />
+          <p>{successMessage}</p>
+        </div>
+      )}
+
       {/* Bloco 1: Identificação e Classificação Geral */}
       <section className="rounded-lg border border-slate-200 bg-white">
         <div className="border-b border-slate-200 p-6">
@@ -147,7 +159,7 @@ export function AnalysisResultView({
             <span>
               {result.sourceMode === 'demonstrativo'
                 ? 'Registro demonstrativo'
-                : 'Simulação local de protótipo'}
+                : 'Análise via Supabase'}
             </span>
           </div>
 
@@ -165,7 +177,9 @@ export function AnalysisResultView({
               </span>
             </div>
 
-            <p className="text-sm leading-relaxed text-slate-700">{result.summary}</p>
+            {result.summary && (
+              <p className="text-sm leading-relaxed text-slate-700">{result.summary}</p>
+            )}
           </div>
 
           <div className="bg-slate-50/70 p-6 space-y-2">
@@ -208,10 +222,9 @@ export function AnalysisResultView({
                 Nenhum indicador relevante de risco foi identificado
               </p>
               <p className="text-sm leading-relaxed text-slate-600">
-                O anúncio apresenta consistência entre título, descrição e faixa de preço
-                informada, sem solicitação de contato externo ou adiantamento financeiro. Ainda
-                assim, a avaliação humana segue soberana caso a equipe identifique algum contexto
-                adicional.
+                O anúncio não apresentou sinais relevantes de inconsistência ou desvio de
+                negociação na análise realizada. Ainda assim, a avaliação humana segue soberana caso
+                a equipe identifique algum contexto adicional.
               </p>
             </div>
           </div>
@@ -225,17 +238,20 @@ export function AnalysisResultView({
                       0{index + 1}.
                     </span>
                     <h4 className="font-display text-sm font-semibold text-slate-900">
-                      {indicator.type}
+                      {indicator.title}
                     </h4>
                   </div>
-                  <SeverityIndicator severity={indicator.severity} />
+                  <SeverityIndicator
+                    severity={indicator.severity}
+                    label={indicator.severityLabel}
+                  />
                 </div>
 
                 <p className="text-sm leading-relaxed text-slate-700">
                   {indicator.justification}
                 </p>
 
-                {indicator.excerpt && (
+                {indicator.evidence && (
                   <div className="flex items-start gap-2.5 rounded-md border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-slate-700">
                     <Quote
                       className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400"
@@ -243,9 +259,9 @@ export function AnalysisResultView({
                     />
                     <div>
                       <span className="font-medium text-slate-500">
-                        Trecho que motivou o alerta:{' '}
+                        Evidência encontrada no anúncio:{' '}
                       </span>
-                      <span className="font-medium text-slate-900">“{indicator.excerpt}”</span>
+                      <span className="font-medium text-slate-900">“{indicator.evidence}”</span>
                     </div>
                   </div>
                 )}
@@ -261,9 +277,9 @@ export function AnalysisResultView({
           <h3 className="font-display text-base font-semibold text-slate-900">
             Conteúdo do anúncio analisado
           </h3>
-          {excerpts.length > 0 && (
+          {evidences.length > 0 && (
             <span className="text-xs text-slate-500">
-              Trechos relacionados aos alertas destacados em amarelo
+              Trechos relacionados às evidências destacados em amarelo
             </span>
           )}
         </div>
@@ -272,14 +288,14 @@ export function AnalysisResultView({
           <div>
             <span className="block text-xs font-medium text-slate-500">Título</span>
             <p className="mt-1 font-medium text-slate-900">
-              {renderHighlightedText(result.listing.title, excerpts)}
+              {renderHighlightedText(result.listing.title, evidences)}
             </p>
           </div>
 
           <div>
             <span className="block text-xs font-medium text-slate-500">Descrição completa</span>
             <p className="mt-1 whitespace-pre-line leading-relaxed text-slate-700">
-              {renderHighlightedText(result.listing.description, excerpts)}
+              {renderHighlightedText(result.listing.description, evidences)}
             </p>
           </div>
         </div>

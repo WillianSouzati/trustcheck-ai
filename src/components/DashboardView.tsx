@@ -377,7 +377,7 @@ export function DashboardView({
                         {item.listing.title}
                       </div>
                       <div className="mt-0.5 flex items-center gap-1.5 text-xs text-slate-500 tabular-nums">
-                        <span>{item.sourceMode === 'demonstrativo' ? 'Demonstração' : 'Simulação local'}</span>
+                        <span>{item.sourceMode === 'demonstrativo' ? 'Demonstração' : 'Análise real'}</span>
                         <span aria-hidden="true">·</span>
                         <span>{formatShortDateBR(item.analyzedAt)}</span>
                       </div>
