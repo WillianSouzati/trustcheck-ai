@@ -106,6 +106,6 @@ Entre as possibilidades de evolução estão:
 
 ## Autor
 
-**Willian Souza**
+**Willian Scher**
 
 Projeto desenvolvido com foco na aplicação prática de inteligência artificial em processos de negócio, análise de riscos, segurança de marketplaces e apoio à tomada de decisão.
